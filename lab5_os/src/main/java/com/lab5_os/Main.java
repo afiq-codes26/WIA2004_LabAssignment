@@ -143,11 +143,13 @@ public class Main extends JFrame{
         int blockId;
         int totalSize;
         int remainingSize;
+        boolean isOccupied;
 
         public MemoryBlock(int ID, int size){
             this.blockId = ID;
             this.totalSize = size;
             this.remainingSize = size;
+            this.isOccupied = false;
         }
     }
 
@@ -178,9 +180,10 @@ public class Main extends JFrame{
             processJobs.add(process);
 
             for (MemoryBlock block : memoryBlocks) {
-                if (block.remainingSize >= process.size) {
+                if (!block.isOccupied && block.remainingSize >= process.size) {
                     block.remainingSize -= process.size;
                     process.allocatedBlockId = block.blockId;
+                    block.isOccupied = true;
                     break;
                 }
             }
